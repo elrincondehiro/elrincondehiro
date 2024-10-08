@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { getAboutInfo } from "../lib/get-about-info"
+import {getCategories} from "../lib/get-categories"
+
+
+const {data , } = await getAboutInfo();
+const categories = await getCategories();
+console.log(categories)
+---
+
+<Layout title= {data.title}>
+    <main>
+        <h1 class="mx-auto text-center text-7xl font-extrabold p-20">{data.title}</h1>
+    
+
+    </main>
+
+    <section aria-label="Categorias de Productos">
+        <div class="px-4 mx-auto max-w-screen-xl">
+            <div class="grid gap-6 md:grid-cols-2">
+                {
+                   categories.map((category: { name: string; slug: string; description: string; image: string; }) => {
+                    const {name, slug, description, image  } = category
+                    return (
+                        <article>
+                            <img src={image} alt={name} class="w-full rounded-lg" />
+                            <h3>{name}</h3>
+                            <p>{description}</p> 
+                        </article>
+                    )
+                   })
+                }
+            </div>
+        </div>
+    </section>
+</Layout>
